@@ -1,0 +1,30 @@
+This file is part of MXE. See LICENSE.md for licensing information.
+
+Contains ad hoc patches for cross building.
+
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Jonas Kvinge <jonas@jkvinge.net>
+Date: Wed, 3 Feb 2021 18:46:32 +0100
+Subject: [PATCH 1/1] Disable D-Bus
+
+
+diff --git a/cmake/FindWrapDBus1.cmake b/cmake/FindWrapDBus1.cmake
+index 1111111..2222222 100644
+--- a/cmake/FindWrapDBus1.cmake
++++ b/cmake/FindWrapDBus1.cmake
+@@ -4,10 +4,12 @@
+ 
+ # When doing top-level static Qt builds, we need to protect against double creation of the dbus
+ # target.
+-if(DBus1_FOUND OR WrapDBus1_FOUND OR TARGET dbus-1)
+-    set(WrapDBus1_FOUND 1)
++#if(DBus1_FOUND OR WrapDBus1_FOUND OR TARGET dbus-1)
++    #set(WrapDBus1_FOUND 1)
++    unset(DBus1_FOUND)
++    unset(WrapDBus1_FOUND)
+     return()
+-endif()
++#endif()
+ 
+ if(DEFINED ENV{PKG_CONFIG_DIR})
+     set(__qt_dbus_pcd "$ENV{PKG_CONFIG_DIR}")
